@@ -26,7 +26,7 @@ import type { CourseCandidate } from "@/lib/course-candidates-client";
 import { fetchCourseCandidates } from "@/lib/course-candidates-client";
 import type { Coordinates } from "@/lib/geolocation";
 import { getCurrentPosition } from "@/lib/geolocation";
-import { isWithinGimhae } from "@/lib/gimhae-boundary";
+import { isWithinSouthKorea } from "@/lib/korea-boundary";
 import { searchAddress } from "@/lib/kakao/geocoder";
 
 type StartPointState =
@@ -69,7 +69,7 @@ export default function RunPage() {
       .then((coordinates) => {
         if (cancelled) return;
         setState(
-          isWithinGimhae(coordinates)
+          isWithinSouthKorea(coordinates)
             ? { status: "confirmed", coordinates, source: "gps" }
             : { status: "need-address" }
         );
@@ -104,10 +104,10 @@ export default function RunPage() {
       return;
     }
 
-    if (!isWithinGimhae(coordinates)) {
+    if (!isWithinSouthKorea(coordinates)) {
       setState({
         status: "address-error",
-        message: "김해시 내 주소를 입력해 주세요.",
+        message: "대한민국 내 주소를 입력해 주세요.",
       });
       return;
     }

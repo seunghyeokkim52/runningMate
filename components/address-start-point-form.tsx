@@ -31,10 +31,10 @@ export function AddressStartPointForm({
           value={address}
           onChange={(event) => setAddress(event.target.value)}
           aria-invalid={!!errorMessage}
-          placeholder="예: 김해시 분성로 100"
+          placeholder="예: 서울시 중구 세종대로 110"
         />
         <FieldDescription>
-          현재 위치를 사용할 수 없어요. 김해시 내 주소를 입력해 주세요.
+          현재 위치를 사용할 수 없어요. 대한민국 내 주소를 입력해 주세요.
         </FieldDescription>
       </Field>
       {errorMessage && (
