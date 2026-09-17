@@ -36,8 +36,8 @@ import {
 
 import RunPage from "@/app/run/page";
 
-const GIMHAE_POINT = { lat: 35.2285, lng: 128.8894 };
-const OUTSIDE_POINT = { lat: 37.5665, lng: 126.978 };
+const KOREA_POINT = { lat: 35.2285, lng: 128.8894 };
+const OUTSIDE_POINT = { lat: 35.6762, lng: 139.6503 }; // 도쿄
 
 describe("RunPage", () => {
   beforeEach(() => {
@@ -48,8 +48,8 @@ describe("RunPage", () => {
     vi.mocked(submitCompletion).mockReset();
   });
 
-  it("김해시 내 위치면 지도와 활성화된 거리 입력을 보여준다", async () => {
-    vi.mocked(getCurrentPosition).mockResolvedValue(GIMHAE_POINT);
+  it("대한민국 내 위치면 지도와 활성화된 거리 입력을 보여준다", async () => {
+    vi.mocked(getCurrentPosition).mockResolvedValue(KOREA_POINT);
 
     render(<RunPage />);
 
@@ -57,7 +57,7 @@ describe("RunPage", () => {
     expect(screen.getByLabelText(/원하는 거리/)).toBeEnabled();
   });
 
-  it("김해시 밖 위치면 주소 입력 폼을 보여준다", async () => {
+  it("대한민국 밖 위치면 주소 입력 폼을 보여준다", async () => {
     vi.mocked(getCurrentPosition).mockResolvedValue(OUTSIDE_POINT);
 
     render(<RunPage />);
@@ -77,16 +77,18 @@ describe("RunPage", () => {
     expect(screen.getByLabelText(/원하는 거리/)).toBeDisabled();
   });
 
-  it("주소가 김해시 내로 확인되면 지도와 활성화된 거리 입력을 보여준다", async () => {
+  it("주소가 대한민국 내로 확인되면 지도와 활성화된 거리 입력을 보여준다", async () => {
     vi.mocked(getCurrentPosition).mockRejectedValue(
       new Error("GEOLOCATION_DENIED")
     );
-    vi.mocked(searchAddress).mockResolvedValue(GIMHAE_POINT);
+    vi.mocked(searchAddress).mockResolvedValue(KOREA_POINT);
 
     render(<RunPage />);
 
     const addressInput = await screen.findByLabelText(/출발 지점 주소/);
-    fireEvent.change(addressInput, { target: { value: "김해시 분성로 100" } });
+    fireEvent.change(addressInput, {
+      target: { value: "서울시 중구 세종대로 110" },
+    });
     fireEvent.click(
       screen.getByRole("button", { name: /주소로 출발 지점 지정/ })
     );
@@ -95,7 +97,7 @@ describe("RunPage", () => {
     expect(screen.getByLabelText(/원하는 거리/)).toBeEnabled();
   });
 
-  it("주소가 김해시 밖이면 안내를 보여주고 거리 입력은 비활성 상태를 유지한다", async () => {
+  it("주소가 대한민국 밖이면 안내를 보여주고 거리 입력은 비활성 상태를 유지한다", async () => {
     vi.mocked(getCurrentPosition).mockRejectedValue(
       new Error("GEOLOCATION_DENIED")
     );
@@ -104,13 +106,13 @@ describe("RunPage", () => {
     render(<RunPage />);
 
     const addressInput = await screen.findByLabelText(/출발 지점 주소/);
-    fireEvent.change(addressInput, { target: { value: "서울시 중구" } });
+    fireEvent.change(addressInput, { target: { value: "도쿄 지요다구" } });
     fireEvent.click(
       screen.getByRole("button", { name: /주소로 출발 지점 지정/ })
     );
 
     expect(
-      await screen.findByText("김해시 내 주소를 입력해 주세요.")
+      await screen.findByText("대한민국 내 주소를 입력해 주세요.")
     ).toBeInTheDocument();
     expect(screen.getByLabelText(/원하는 거리/)).toBeDisabled();
   });
@@ -146,7 +148,9 @@ describe("RunPage", () => {
     render(<RunPage />);
 
     const addressInput = await screen.findByLabelText(/출발 지점 주소/);
-    fireEvent.change(addressInput, { target: { value: "김해시 분성로 100" } });
+    fireEvent.change(addressInput, {
+      target: { value: "서울시 중구 세종대로 110" },
+    });
     fireEvent.click(
       screen.getByRole("button", { name: /주소로 출발 지점 지정/ })
     );
@@ -162,7 +166,7 @@ describe("RunPage", () => {
   });
 
   it("거리를 입력해 코스를 찾으면 후보가 지도와 선택 UI에 표시된다", async () => {
-    vi.mocked(getCurrentPosition).mockResolvedValue(GIMHAE_POINT);
+    vi.mocked(getCurrentPosition).mockResolvedValue(KOREA_POINT);
     vi.mocked(fetchCourseCandidates).mockResolvedValue([
       { id: "bearing-0", distanceKm: 5.1, path: [] },
       { id: "bearing-120", distanceKm: 4.9, path: [] },
@@ -187,7 +191,7 @@ describe("RunPage", () => {
   });
 
   it("추천 가능한 코스가 없으면 빈 상태를 보여준다", async () => {
-    vi.mocked(getCurrentPosition).mockResolvedValue(GIMHAE_POINT);
+    vi.mocked(getCurrentPosition).mockResolvedValue(KOREA_POINT);
     vi.mocked(fetchCourseCandidates).mockResolvedValue([]);
 
     render(<RunPage />);
@@ -202,7 +206,7 @@ describe("RunPage", () => {
   });
 
   it("코스 검색 요청 자체가 실패하면 빈 상태가 아닌 오류 안내를 보여준다", async () => {
-    vi.mocked(getCurrentPosition).mockResolvedValue(GIMHAE_POINT);
+    vi.mocked(getCurrentPosition).mockResolvedValue(KOREA_POINT);
     vi.mocked(fetchCourseCandidates).mockResolvedValue(null);
 
     render(<RunPage />);
@@ -220,7 +224,7 @@ describe("RunPage", () => {
   });
 
   it("페이지 진입 시 완주 기록을 불러와 보여준다", async () => {
-    vi.mocked(getCurrentPosition).mockResolvedValue(GIMHAE_POINT);
+    vi.mocked(getCurrentPosition).mockResolvedValue(KOREA_POINT);
     vi.mocked(fetchCompletionRecords).mockResolvedValue([
       { id: "r1", distanceKm: 3.4, completedAt: "2026-01-01T00:00:00.000Z" },
     ]);
@@ -231,7 +235,7 @@ describe("RunPage", () => {
   });
 
   it("코스를 선택하고 완주를 표시하면 기록 목록에 새 항목이 추가된다", async () => {
-    vi.mocked(getCurrentPosition).mockResolvedValue(GIMHAE_POINT);
+    vi.mocked(getCurrentPosition).mockResolvedValue(KOREA_POINT);
     vi.mocked(fetchCourseCandidates).mockResolvedValue([
       { id: "bearing-0", distanceKm: 5.1, path: [] },
     ]);
@@ -263,7 +267,7 @@ describe("RunPage", () => {
   });
 
   it("같은 후보에 완주 표시를 두 번 눌러도 기록은 한 번만 저장된다", async () => {
-    vi.mocked(getCurrentPosition).mockResolvedValue(GIMHAE_POINT);
+    vi.mocked(getCurrentPosition).mockResolvedValue(KOREA_POINT);
     vi.mocked(fetchCourseCandidates).mockResolvedValue([
       { id: "bearing-0", distanceKm: 5.1, path: [] },
     ]);

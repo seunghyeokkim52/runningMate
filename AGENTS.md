@@ -37,7 +37,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 <!-- BEGIN:stack-context -->
 아래 기술과 관련된 작업을 시작할 때는 캐시된 지식 대신 공식 문서를 다시 확인하고, 설치된 버전과 대조한다.
 
-- **Valhalla** (김해시 순환 러닝 코스용 보행자 라우팅 엔진, 자체 호스팅): 공식 문서 https://valhalla.github.io/valhalla/ , 소스 https://github.com/valhalla/valhalla . pedestrian costing(`use_hills`, `walkway_factor`, `sidewalk_factor`, `alley_factor` 등)은 문서에 없으면 `src/sif/pedestriancost.cc` 소스로 확인한다.
+- **Valhalla** (전국 순환 러닝 코스용 보행자 라우팅 엔진, 자체 호스팅): 공식 문서 https://valhalla.github.io/valhalla/ , 소스 https://github.com/valhalla/valhalla . pedestrian costing(`use_hills`, `walkway_factor`, `sidewalk_factor`, `alley_factor` 등)은 문서에 없으면 `src/sif/pedestriancost.cc` 소스로 확인한다.
 - **Kakao Maps JavaScript SDK** (지도 시각화): 공식 문서 https://apis.map.kakao.com/web/documentation/ . API 키 발급, 도메인 등록, SDK 버전별 변경사항은 이 문서를 기준으로 한다.
 <!-- END:stack-context -->
 
