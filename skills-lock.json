@@ -73,6 +73,12 @@
       "skillPath": "skills/workflow/implement/SKILL.md",
       "computedHash": "90c659fdfdbf272a9a56f1fdc2467c86533162ffb3ea34141735782374378962"
     },
+    "kakao-map": {
+      "source": "nomadamas/k-skill",
+      "sourceType": "github",
+      "skillPath": "kakao-map/SKILL.md",
+      "computedHash": "0455755010368944164006026eb3adbd5656b4585585b9fe6506ed8e86952928"
+    },
     "maintain-project-context": {
       "source": "toy-crane/skills",
       "sourceType": "github",

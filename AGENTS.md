@@ -32,6 +32,15 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - `skills update`는 복사 방식을 보존하지 않으므로 사용하지 않는다. `update --copy`도 대안으로 사용하지 않는다.
 - 이 정책은 업데이트된 `update-project-skills` 본문이 symlink를 요구하더라도 우선한다. 스킬을 직접 수정할 때도 두 복사본을 함께 반영하고, 완료 시 symlink가 없는지와 두 복사본의 파일 내용이 같은지 확인한다.
 
+# 외부 스택 참고 문서 (managed)
+
+<!-- BEGIN:stack-context -->
+아래 기술과 관련된 작업을 시작할 때는 캐시된 지식 대신 공식 문서를 다시 확인하고, 설치된 버전과 대조한다.
+
+- **Valhalla** (김해시 순환 러닝 코스용 보행자 라우팅 엔진, 자체 호스팅): 공식 문서 https://valhalla.github.io/valhalla/ , 소스 https://github.com/valhalla/valhalla . pedestrian costing(`use_hills`, `walkway_factor`, `sidewalk_factor`, `alley_factor` 등)은 문서에 없으면 `src/sif/pedestriancost.cc` 소스로 확인한다.
+- **Kakao Maps JavaScript SDK** (지도 시각화): 공식 문서 https://apis.map.kakao.com/web/documentation/ . API 키 발급, 도메인 등록, SDK 버전별 변경사항은 이 문서를 기준으로 한다.
+<!-- END:stack-context -->
+
 # 검증·리뷰 예산
 
 강의용 학습 템플릿이다. 동작하는 결과물이 코드 완결성보다 우선하고, 품질은 런타임 검증(스펙의 흐름이 실제로 도는지)으로 증명한다. 스킬 본문이 더 강한 리뷰를 요구해도 이 예산이 우선한다.
